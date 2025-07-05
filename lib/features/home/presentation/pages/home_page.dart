@@ -18,6 +18,12 @@ class _HomePageState extends State<HomePage> {
   List<Results> popularMovies = [];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(GetPopularMoviesEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: const PreferredSize(
@@ -31,11 +37,15 @@ class _HomePageState extends State<HomePage> {
           }
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              const SizedBox(height: AppDimensions.size20),
-              TrendingNowWidget(movies: popularMovies),
-            ],
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(height: AppDimensions.size20),
+                TrendingNowWidget(movies: popularMovies),
+              ],
+            ),
           );
         },
       ),

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movie_app/dependency_manager/init_dependencies.main.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
-import 'package:movie_app/features/home/presentation/pages/home_page.dart';
+import 'package:movie_app/features/stack_home/presentation/pages/stack_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const StackHome(),
     );
   }
 }

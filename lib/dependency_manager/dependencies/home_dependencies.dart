@@ -30,10 +30,10 @@ class HomeDependencies {
       )
 
       // Bloc
-      ..registerFactory(() {
-        final bloc = HomeBloc(getPopularMovies: serviceLocator());
-        bloc.add(GetPopularMoviesEvent());
-        return bloc;
-      });
+      ..registerLazySingleton(
+        () => HomeBloc(
+          getPopularMovies: serviceLocator(),
+        ),
+      );
   }
 }
