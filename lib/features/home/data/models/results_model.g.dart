@@ -21,7 +21,7 @@ ResultsModel _$ResultsModelFromJson(Map<String, dynamic> json) => ResultsModel(
       releaseDate: json['release_date'] as String?,
       title: json['title'] as String?,
       video: json['video'] as bool?,
-      voteAverage: (json['vote_average'] as num?)?.toDouble(),
+      voteAverage: json['vote_average'] as num?,
       voteCount: (json['vote_count'] as num?)?.toInt(),
     );
 

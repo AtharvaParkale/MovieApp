@@ -24,6 +24,8 @@ dependencies:
   flutter_svg: ^2.1.0
   retrofit: ^4.5.0
   logger: ^2.4.0
+  carousel_slider: ^5.1.1
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

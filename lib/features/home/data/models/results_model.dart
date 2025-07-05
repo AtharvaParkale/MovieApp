@@ -24,7 +24,7 @@ class ResultsModel {
   final String? title;
   final bool? video;
   @JsonKey(name: 'vote_average')
-  final double? voteAverage;
+  final num? voteAverage;
   @JsonKey(name: 'vote_count')
   final int? voteCount;
 
@@ -50,11 +50,11 @@ class ResultsModel {
 
   Map<String, dynamic> toJson() => _$ResultsModelToJson(this);
 
-  /// ✅ Convert to domain entity
   Results toEntity() => Results(
         id: id ?? 0,
         title: title ?? '',
         posterPath: posterPath,
+        voteAverage: voteAverage,
       );
 
   /// 🔁 Optional: Convert from domain entity (useful for local DB)

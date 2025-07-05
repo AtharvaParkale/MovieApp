@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/common/widgets/app_bar_widget.dart';
 import 'package:movie_app/core/common/widgets/scaffold_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
+import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/trending_now_widget.dart';
 
@@ -14,11 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeBloc>().add(GetPopularMoviesEvent());
-  }
+  List<Results> popularMovies = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +27,14 @@ class _HomePageState extends State<HomePage> {
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is PopularMoviesFetchedState) {
-            print('Demo :: ${state.popularMovies.results.length}');
+            popularMovies = state.popularMovies.results;
           }
         },
         builder: (context, state) {
-          return const Column(
+          return Column(
             children: [
-              SizedBox(height: AppDimensions.size15),
-              TrendingNowWidget(),
+              const SizedBox(height: AppDimensions.size20),
+              TrendingNowWidget(movies: popularMovies),
             ],
           );
         },
