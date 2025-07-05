@@ -1,6 +1,4 @@
 {
   "appTitle": "MovieApp",
-  "@appTitle": {
-    "description": "The title of the application"
-  }
+  "trendingMovies": "Trending Now"
 }
