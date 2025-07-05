@@ -24,9 +24,9 @@ class _HomeRemoteDataSource implements HomeRemoteDataSource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MovieResponse> getPopularMovies(String apiKey) async {
+  Future<MovieResponse> getPopularMovies() async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'api_key': apiKey};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MovieResponse>(Options(

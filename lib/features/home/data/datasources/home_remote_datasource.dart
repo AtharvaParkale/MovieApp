@@ -11,5 +11,5 @@ abstract class HomeRemoteDataSource {
       _HomeRemoteDataSource;
 
   @GET("/movie/popular")
-  Future<MovieResponse> getPopularMovies(@Query("api_key") String apiKey);
+  Future<MovieResponse> getPopularMovies();
 }

@@ -1,4 +1,3 @@
 class AppSecrets {
-  static const tmDbApiKey =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTUwMjg3MDM1YWEyZWZjYzcwNDk3ODk5NzRmMjc0YSIsIm5iZiI6MTcwNzQ3NTI4NS43NjcsInN1YiI6IjY1YzYwMTU1ZmQ3YWE0MDE0Njk3OWViMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qaG8OUmXuhdd1Kk_fIcFZHlecfoyY2HfP40Wky9QzLY';
+  static const tmDbApiKey = "6150287035aa2efcc7049789974f274a";
 }
