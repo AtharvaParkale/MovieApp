@@ -20,15 +20,18 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   shared_preferences: ^2.5.3
   url_launcher: ^6.3.1
-  build_runner: ^2.4.13
-  json_serializable: ^6.9.0
   fpdart: ^1.1.1
   flutter_svg: ^2.1.0
+  retrofit: ^4.5.0
+  logger: ^2.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  retrofit_generator: '>=8.0.0 <10.0.0'
+  build_runner: ^2.3.3
+  json_serializable: ^6.8.0
 
 flutter:
   generate: true
