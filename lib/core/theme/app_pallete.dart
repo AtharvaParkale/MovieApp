@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppPallete {
-  static const Color primaryColor = Color.fromRGBO(26, 26, 28, 1);
-  static const Color secondaryColor = Color.fromRGBO(253, 118, 85, 1);
+  static const Color primaryColor = Color.fromRGBO(31, 31, 31, 1);
+  static const Color secondaryColor = Color.fromRGBO(251, 151, 34, 1);
   static const Color titleColor = Color.fromRGBO(5, 5, 5, 1);
   static const Color descriptionColor = Color.fromRGBO(140, 144, 148, 1);
   static const Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
