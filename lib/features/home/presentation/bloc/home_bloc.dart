@@ -29,6 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     GetPopularMoviesEvent event,
     Emitter<HomeState> emit,
   ) async {
+    emit(PopularMoviesLoadingState());
     final res = await _getPopularMovies(NoParams());
     res.fold(
       (l) => emit(FailureState()),
@@ -40,6 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     GetNowPlayingMoviesEvent event,
     Emitter<HomeState> emit,
   ) async {
+    emit(NowPlayingMoviesLoadingState());
     final res = await _getNowPlayingMovies(NoParams());
     res.fold(
       (l) => emit(FailureState()),

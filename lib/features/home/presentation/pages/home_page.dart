@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/common/widgets/app_bar_widget.dart';
 import 'package:movie_app/core/common/widgets/scaffold_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
+import 'package:movie_app/core/data/dummy_data.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/now_playing_widget.dart';
@@ -16,8 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Results> popularMovies = [];
-  List<Results> nowPlayingMovies = [];
+  List<Results> popularMovies = DummyData.dummyResults;
+  List<Results> nowPlayingMovies = DummyData.dummyResults;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _HomePageState extends State<HomePage> {
             nowPlayingMovies = state.nowPlayingMovies.results;
           }
         },
+        buildWhen: (previous, current) => _buildWhen(current),
         builder: (context, state) {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -48,7 +50,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 const SizedBox(height: AppDimensions.size20),
-                TrendingNowWidget(movies: popularMovies),
+                TrendingNowWidget(
+                  movies: popularMovies,
+                  isLoading: state is PopularMoviesLoadingState,
+                ),
                 const SizedBox(height: AppDimensions.size16),
                 NowPlayingWidget(movies: nowPlayingMovies),
               ],
@@ -57,5 +62,11 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  bool _buildWhen(HomeState current) {
+    return current is PopularMoviesFetchedState ||
+        current is NowPlayingMoviesFetchedState ||
+        current is PopularMoviesLoadingState;
   }
 }

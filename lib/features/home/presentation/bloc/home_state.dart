@@ -22,3 +22,7 @@ final class NowPlayingMoviesFetchedState extends HomeState {
 }
 
 final class FailureState extends HomeState {}
+
+final class PopularMoviesLoadingState extends HomeState {}
+
+final class NowPlayingMoviesLoadingState extends HomeState {}

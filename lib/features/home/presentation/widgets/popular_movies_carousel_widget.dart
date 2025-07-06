@@ -1,14 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/common/widgets/shimmer_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
 
 class PopularMoviesCarouselWidget extends StatefulWidget {
-  const PopularMoviesCarouselWidget({super.key, required this.movies});
+  const PopularMoviesCarouselWidget({
+    super.key,
+    required this.movies,
+    required this.isLoading,
+  });
 
   final List<Results> movies;
+  final bool isLoading;
 
   @override
   State<PopularMoviesCarouselWidget> createState() =>
@@ -25,7 +31,7 @@ class _PopularMoviesCarouselWidgetState
         enlargeCenterPage: true,
         viewportFraction: 0.75,
         enableInfiniteScroll: true,
-        autoPlay: true,
+        autoPlay: !(widget.isLoading),
       ),
       items: widget.movies.map((movie) {
         return Builder(
@@ -45,7 +51,8 @@ class _PopularMoviesCarouselWidgetState
     );
   }
 
-  Row _buildRatings(Results movie) {
+  Widget _buildRatings(Results movie) {
+    if (widget.isLoading) return const Text("");
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -67,7 +74,8 @@ class _PopularMoviesCarouselWidgetState
     );
   }
 
-  Text _buildTitle(Results movie) {
+  Widget _buildTitle(Results movie) {
+    if (widget.isLoading) return const Text("");
     return Text(
       movie.title ?? "",
       style: appTextTheme.titleMedium?.copyWith(
@@ -83,64 +91,71 @@ class _PopularMoviesCarouselWidgetState
       padding: const EdgeInsets.symmetric(
         vertical: AppDimensions.size14,
       ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: AppDimensions.size12,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppDimensions.size30),
-          border: Border.all(
-            color: const Color.fromRGBO(251, 151, 34, 0.3),
-            width: 1.5,
+      child: ShimmerWidget(
+        isLoading: widget.isLoading,
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+            vertical: AppDimensions.size12,
           ),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(251, 151, 34, 0.18),
-              blurRadius: AppDimensions.size20,
-              spreadRadius: AppDimensions.size2,
-              offset: Offset(0, -10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppDimensions.size30),
+            border: Border.all(
+              color: const Color.fromRGBO(251, 151, 34, 0.3),
+              width: 1.5,
             ),
-            BoxShadow(
-              color: Color.fromRGBO(251, 151, 34, 0.08),
-              blurRadius: AppDimensions.size10,
-              spreadRadius: 1,
-              offset: Offset(0, -3),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDimensions.size30),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Image.network(
-                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: Colors.grey[300],
-                    child: const Icon(
-                      Icons.movie,
-                      size: AppDimensions.size80,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
+            boxShadow: [
+              BoxShadow(
+                color: widget.isLoading
+                    ? Colors.transparent
+                    : const Color.fromRGBO(251, 151, 34, 0.18),
+                blurRadius: AppDimensions.size20,
+                spreadRadius: AppDimensions.size2,
+                offset: const Offset(0, -10),
               ),
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.center,
-                      colors: [
-                        Colors.black.withOpacity(0.6),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
+              BoxShadow(
+                color: widget.isLoading
+                    ? Colors.transparent
+                    : const Color.fromRGBO(251, 151, 34, 0.08),
+                blurRadius: AppDimensions.size10,
+                spreadRadius: 1,
+                offset: const Offset(0, -3),
               ),
             ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(AppDimensions.size30),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.network(
+                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      color: Colors.grey[300],
+                      child: const Icon(
+                        Icons.movie,
+                        size: AppDimensions.size80,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                        colors: [
+                          Colors.black.withOpacity(0.6),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
