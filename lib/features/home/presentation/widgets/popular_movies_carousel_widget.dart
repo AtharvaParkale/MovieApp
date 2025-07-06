@@ -23,7 +23,7 @@ class _PopularMoviesCarouselWidgetState
       options: CarouselOptions(
         height: MediaQuery.of(context).size.height * 0.65,
         enlargeCenterPage: true,
-        viewportFraction: 0.8,
+        viewportFraction: 0.75,
         enableInfiniteScroll: true,
         autoPlay: true,
       ),
@@ -88,7 +88,7 @@ class _PopularMoviesCarouselWidgetState
           vertical: AppDimensions.size12,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(32.0),
+          borderRadius: BorderRadius.circular(AppDimensions.size30),
           border: Border.all(
             color: const Color.fromRGBO(251, 151, 34, 0.3),
             width: 1.5,
@@ -109,7 +109,7 @@ class _PopularMoviesCarouselWidgetState
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDimensions.size32),
+          borderRadius: BorderRadius.circular(AppDimensions.size30),
           child: Stack(
             children: [
               Positioned.fill(
