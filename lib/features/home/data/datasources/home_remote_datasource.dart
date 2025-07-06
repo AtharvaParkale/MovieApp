@@ -10,9 +10,9 @@ abstract class HomeRemoteDataSource {
   factory HomeRemoteDataSource(Dio dio, {String baseUrl}) =
       _HomeRemoteDataSource;
 
-  @GET("/movie/popular")
+  @GET(Constants.getPopularMovies)
   Future<MovieResponse> getPopularMovies();
 
-  @GET("/movie/now_playing")
+  @GET(Constants.getNowPlayingMovies)
   Future<MovieResponse> getNowPlayingMovies();
 }

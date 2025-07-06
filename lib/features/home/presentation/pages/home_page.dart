@@ -19,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Results> popularMovies = DummyData.dummyResults;
   List<Results> nowPlayingMovies = DummyData.dummyResults;
+  bool isPopularMoviesLoading = true;
+  bool isNowPlayingMoviesLoading = true;
 
   @override
   void initState() {
@@ -38,8 +40,10 @@ class _HomePageState extends State<HomePage> {
         listener: (context, state) {
           if (state is PopularMoviesFetchedState) {
             popularMovies = state.popularMovies.results;
+            isPopularMoviesLoading = false;
           } else if (state is NowPlayingMoviesFetchedState) {
             nowPlayingMovies = state.nowPlayingMovies.results;
+            isNowPlayingMoviesLoading = false;
           }
         },
         buildWhen: (previous, current) => _buildWhen(current),
@@ -52,10 +56,13 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: AppDimensions.size20),
                 TrendingNowWidget(
                   movies: popularMovies,
-                  isLoading: state is PopularMoviesLoadingState,
+                  isLoading: isPopularMoviesLoading,
                 ),
                 const SizedBox(height: AppDimensions.size16),
-                NowPlayingWidget(movies: nowPlayingMovies),
+                NowPlayingWidget(
+                  movies: nowPlayingMovies,
+                  isLoading: isNowPlayingMoviesLoading,
+                ),
               ],
             ),
           );
@@ -66,7 +73,8 @@ class _HomePageState extends State<HomePage> {
 
   bool _buildWhen(HomeState current) {
     return current is PopularMoviesFetchedState ||
+        current is PopularMoviesLoadingState ||
         current is NowPlayingMoviesFetchedState ||
-        current is PopularMoviesLoadingState;
+        current is NowPlayingMoviesLoadingState;
   }
 }

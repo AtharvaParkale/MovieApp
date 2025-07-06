@@ -6,9 +6,14 @@ import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/home/presentation/widgets/now_playing_movies_carousel.dart';
 
 class NowPlayingWidget extends StatelessWidget {
-  const NowPlayingWidget({super.key, required this.movies});
+  const NowPlayingWidget({
+    super.key,
+    required this.movies,
+    required this.isLoading,
+  });
 
   final List<Results> movies;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,10 @@ class NowPlayingWidget extends StatelessWidget {
           const SizedBox(height: AppDimensions.size10),
           Padding(
             padding: const EdgeInsets.only(left: AppDimensions.size34),
-            child: NowPlayingMoviesCarousel(movies: movies),
+            child: NowPlayingMoviesCarousel(
+              movies: movies,
+              isLoading: isLoading,
+            ),
           ),
           const SizedBox(height: AppDimensions.size40),
         ],
