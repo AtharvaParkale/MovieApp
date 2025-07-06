@@ -11,4 +11,5 @@ class AppPallete {
   static const Color shimmerHighLightColor = Color.fromRGBO(134, 245, 242, 242);
   static const Color shimmerBaseColor = Color.fromRGBO(113, 178, 178, 178);
   static const Color lightDescriptionColor = Color.fromRGBO(210, 213, 216, 1);
+  static const Color textFieldBackgroundColor = Color.fromRGBO(31, 31, 31, 1);
 }
