@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/core/common/widgets/app_bar_widget.dart';
 import 'package:movie_app/core/common/widgets/scaffold_widget.dart';
 import 'package:movie_app/core/common/widgets/text_field_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
-import 'package:movie_app/core/constants/app_font_weigth.dart';
-import 'package:movie_app/core/data/dummy_data.dart';
-import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/search/presentation/bloc/search_page_bloc.dart';
+import 'package:movie_app/features/search/presentation/widgets/loading_widget.dart';
+import 'package:movie_app/features/search/presentation/widgets/movies_grid_widget.dart';
+import 'package:movie_app/features/search/presentation/widgets/no_results_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -18,7 +19,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<Results> searchResult = DummyData.dummyResults;
+  List<Results> searchResult = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +54,24 @@ class _SearchPageState extends State<SearchPage> {
               },
               buildWhen: (previous, current) => _buildWhen(current),
               builder: (context, state) {
-                return Center(
-                  child: Text(
-                    "No results found.\nSearch for your favorite movies or shows here!",
-                    textAlign: TextAlign.center,
-                    style: appTextTheme.titleMedium?.copyWith(
-                      fontWeight: AppFontWeight.semiBold,
-                      color: const Color.fromRGBO(255, 255, 255, 0.83),
-                      fontSize: AppDimensions.size16,
-                      height: 1.4,
-                    ),
-                  ),
-                );
+                if (state is SearchSuccessState) {
+                  if (searchResult.isEmpty) {
+                    return NoResultsWidget(
+                      description:
+                          AppLocalizations.of(context)?.noResults ?? "",
+                    );
+                  } else {
+                    return MoviesGridWidget(movies: searchResult);
+                  }
+                } else if (state is LoadingState) {
+                  return const LoadingWidget();
+                } else {
+                  return NoResultsWidget(
+                    description: AppLocalizations.of(context)
+                            ?.searchYourFavoriteMovies ??
+                        "",
+                  );
+                }
               },
             ),
           ],

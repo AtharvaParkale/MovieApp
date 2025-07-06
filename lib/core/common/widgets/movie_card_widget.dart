@@ -1,39 +1,42 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/common/widgets/shimmer_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
+import 'package:movie_app/core/theme/app_pallete.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
 
 class MovieCardWidget extends StatelessWidget {
   const MovieCardWidget({
     super.key,
     required this.movie,
+    this.verticalPadding = AppDimensions.size26,
+    this.borderRadius = AppDimensions.size32,
+    this.disableBoxShadow = false,
   });
 
   final Results movie;
+  final double verticalPadding;
+  final double borderRadius;
+  final bool disableBoxShadow;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: AppDimensions.size14,
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: verticalPadding,
       ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: AppDimensions.size12,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppDimensions.size32),
-          border: _buildBorder(),
-          boxShadow: _getBoxShadow(),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDimensions.size32),
-          child: Stack(
-            children: [
-              _buildMovieImage(),
-              _buildGradient(),
-            ],
-          ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: _buildBorder(),
+        boxShadow: _getBoxShadow(),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Stack(
+          children: [
+            _buildMovieImage(),
+            _buildGradient(),
+          ],
         ),
       ),
     );
@@ -61,10 +64,13 @@ class MovieCardWidget extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
         fit: BoxFit.cover,
-        placeholder: (context, url) => Container(
-          color: Colors.grey[200],
-          child: const Center(
-            child: CircularProgressIndicator(strokeWidth: 2),
+        placeholder: (context, url) => const ShimmerWidget(
+          isLoading: true,
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: AppPallete.secondaryColor,
+            ),
           ),
         ),
         errorWidget: (context, url, error) => Container(
@@ -87,18 +93,22 @@ class MovieCardWidget extends StatelessWidget {
   }
 
   List<BoxShadow> _getBoxShadow() {
-    return const [
+    return [
       BoxShadow(
-        color: Color.fromRGBO(251, 151, 34, 0.18),
+        color: disableBoxShadow
+            ? Colors.transparent
+            : const Color.fromRGBO(251, 151, 34, 0.18),
         blurRadius: AppDimensions.size20,
         spreadRadius: AppDimensions.size2,
-        offset: Offset(0, -10),
+        offset: const Offset(0, -10),
       ),
       BoxShadow(
-        color: Color.fromRGBO(251, 151, 34, 0.08),
+        color: disableBoxShadow
+            ? Colors.transparent
+            : const Color.fromRGBO(251, 151, 34, 0.08),
         blurRadius: AppDimensions.size10,
         spreadRadius: 1,
-        offset: Offset(0, -3),
+        offset: const Offset(0, -3),
       ),
     ];
   }

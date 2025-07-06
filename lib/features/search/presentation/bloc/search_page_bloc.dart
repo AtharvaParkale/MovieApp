@@ -23,11 +23,11 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     InitiateSearchEvent event,
     Emitter<SearchPageState> emit,
   ) async {
-    // emit(LoadingState());
-    // final res = await _searchMovies(event.keyWord);
-    // res.fold(
-    //   (l) => emit(FailureState()),
-    //   (r) => emit(SearchSuccessState(movies: r)),
-    // );
+    emit(LoadingState());
+    final res = await _searchMovies(event.keyWord);
+    res.fold(
+      (l) => emit(FailureState()),
+      (r) => emit(SearchSuccessState(movies: r)),
+    );
   }
 }

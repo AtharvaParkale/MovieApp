@@ -1,5 +1,7 @@
 {
   "appTitle": "MovieApp",
   "trendingMovies": "Trending Now",
-  "nowPlaying": "Now playing"
+  "nowPlaying": "Now playing",
+  "noResults": "No results found.\nTry a different search.",
+  "searchYourFavoriteMovies": "Search for your favorite movies and shows"
 }
