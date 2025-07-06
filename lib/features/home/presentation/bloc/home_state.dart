@@ -13,4 +13,12 @@ final class PopularMoviesFetchedState extends HomeState {
   });
 }
 
+final class NowPlayingMoviesFetchedState extends HomeState {
+  final Movie nowPlayingMovies;
+
+  NowPlayingMoviesFetchedState({
+    required this.nowPlayingMovies,
+  });
+}
+
 final class FailureState extends HomeState {}

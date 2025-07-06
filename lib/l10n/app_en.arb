@@ -1,4 +1,5 @@
 {
   "appTitle": "MovieApp",
-  "trendingMovies": "Trending Now"
+  "trendingMovies": "Trending Now",
+  "nowPlaying": "Now playing"
 }

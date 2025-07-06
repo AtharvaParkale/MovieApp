@@ -19,4 +19,15 @@ class HomeRepositoryImpl implements HomeRepository {
       return left(Failure('Something went wrong !'));
     }
   }
+
+  @override
+  Future<Either<Failure, Movie>> getNowPlayingMovies() async {
+    try {
+      final MovieResponse response =
+          await remoteDataSource.getNowPlayingMovies();
+      return right(response.toEntity());
+    } catch (e) {
+      return left(Failure('Something went wrong !'));
+    }
+  }
 }

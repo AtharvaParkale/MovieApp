@@ -55,12 +55,14 @@ class ResultsModel {
         title: title ?? '',
         posterPath: posterPath,
         voteAverage: voteAverage,
+        backdropPath: backdropPath,
       );
 
-  /// 🔁 Optional: Convert from domain entity (useful for local DB)
   factory ResultsModel.fromEntity(Results entity) => ResultsModel(
         id: entity.id,
         title: entity.title,
         posterPath: entity.posterPath,
+        voteAverage: entity.voteAverage,
+        backdropPath: entity.backdropPath,
       );
 }

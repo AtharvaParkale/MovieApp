@@ -12,4 +12,7 @@ abstract class HomeRemoteDataSource {
 
   @GET("/movie/popular")
   Future<MovieResponse> getPopularMovies();
+
+  @GET("/movie/now_playing")
+  Future<MovieResponse> getNowPlayingMovies();
 }

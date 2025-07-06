@@ -4,3 +4,5 @@ part of 'home_bloc.dart';
 sealed class HomeEvent {}
 
 final class GetPopularMoviesEvent extends HomeEvent {}
+
+final class GetNowPlayingMoviesEvent extends HomeEvent {}

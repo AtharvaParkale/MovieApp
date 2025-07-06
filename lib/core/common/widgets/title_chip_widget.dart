@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
 import 'package:movie_app/core/theme/app_pallete.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
 
 class TitleChipWidget extends StatelessWidget {
-  const TitleChipWidget({super.key});
+  const TitleChipWidget({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class TitleChipWidget extends StatelessWidget {
           ),
           const SizedBox(width: 5),
           Text(
-            AppLocalizations.of(context)?.trendingMovies ?? "",
+            title,
             style: appTextTheme.bodyMedium?.copyWith(
               fontWeight: AppFontWeight.semiBold,
               color: AppPallete.whiteColor,
