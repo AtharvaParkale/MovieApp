@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:movie_app/core/network/dio_provider.dart';
+import 'package:movie_app/features/home/data/datasources/home_local_datasource.dart';
 import 'package:movie_app/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:movie_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:movie_app/features/home/domain/repository/home_repository.dart';
@@ -16,10 +17,14 @@ class HomeDependencies {
       ..registerFactory<HomeRemoteDataSource>(
         () => HomeRemoteDataSource(dio),
       )
+      ..registerFactory<HomeLocalDataSource>(
+        () => HomeLocalDataSourceImpl(),
+      )
 
       // Repository
       ..registerFactory<HomeRepository>(
         () => HomeRepositoryImpl(
+          serviceLocator(),
           serviceLocator(),
         ),
       )
