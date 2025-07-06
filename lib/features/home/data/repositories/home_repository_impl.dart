@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:movie_app/core/constants/app_enums.dart';
 import 'package:movie_app/core/error/failures.dart';
 import 'package:movie_app/features/home/data/datasources/home_local_datasource.dart';
 import 'package:movie_app/features/home/data/datasources/home_remote_datasource.dart';
@@ -18,12 +19,18 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<Either<Failure, Movie>> getPopularMovies() async {
     try {
-      final cachedMovieResponse = await localDataSource.getResultsFromPrefs();
+      final cachedMovieResponse = await localDataSource.getResultsFromPrefs(
+        ApiTag.popularMovies,
+      );
 
       if (cachedMovieResponse == null) {
         final MovieResponse response =
             await remoteDataSource.getPopularMovies();
-        await localDataSource.saveResultsToPrefs(response);
+
+        await localDataSource.saveResultsToPrefs(
+          response,
+          ApiTag.popularMovies,
+        );
         return right(response.toEntity());
       } else {
         return right(cachedMovieResponse.toEntity());
@@ -36,9 +43,22 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<Either<Failure, Movie>> getNowPlayingMovies() async {
     try {
-      final MovieResponse response =
-          await remoteDataSource.getNowPlayingMovies();
-      return right(response.toEntity());
+      final cachedMovieResponse = await localDataSource.getResultsFromPrefs(
+        ApiTag.nowPlayingMovies,
+      );
+
+      if (cachedMovieResponse == null) {
+        final MovieResponse response =
+            await remoteDataSource.getNowPlayingMovies();
+
+        await localDataSource.saveResultsToPrefs(
+          response,
+          ApiTag.nowPlayingMovies,
+        );
+        return right(response.toEntity());
+      } else {
+        return right(cachedMovieResponse.toEntity());
+      }
     } catch (e) {
       return left(Failure('Something went wrong !'));
     }

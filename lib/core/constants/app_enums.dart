@@ -1,1 +1,1 @@
-
+enum ApiTag { popularMovies, nowPlayingMovies }
