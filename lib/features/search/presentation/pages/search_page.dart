@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/common/widgets/app_bar_widget.dart';
 import 'package:movie_app/core/common/widgets/scaffold_widget.dart';
+import 'package:movie_app/core/common/widgets/text_field_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
-import 'package:movie_app/core/theme/app_pallete.dart';
+import 'package:movie_app/core/data/dummy_data.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
+import 'package:movie_app/features/home/domain/entities/results.dart';
+import 'package:movie_app/features/search/presentation/bloc/search_page_bloc.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
   @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  List<Results> searchResult = DummyData.dummyResults;
+
+  @override
   Widget build(BuildContext context) {
+    final nameController = TextEditingController();
     return ScaffoldWidget(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
@@ -23,47 +35,47 @@ class SearchPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: AppDimensions.size20),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search movies,series, ...',
-                hintStyle: appTextTheme.bodyMedium?.copyWith(
-                  fontWeight: AppFontWeight.medium,
-                  color: AppPallete.lightDescriptionColor,
-                  height: 1.5,
-                  fontSize: 12,
-                ),
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: AppPallete.lightDescriptionColor,
-                ),
-                filled: true,
-                fillColor: AppPallete.titleColor,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 16,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              cursorColor: AppPallete.secondaryColor,
-              style: appTextTheme.bodyMedium?.copyWith(
-                fontWeight: AppFontWeight.medium,
-                color: AppPallete.lightDescriptionColor,
-                height: 1.5,
-                fontSize: 12,
-              ),
+            TextFieldWidget(
+              nameController: nameController,
+              onChange: (value) {
+                context.read<SearchPageBloc>().add(
+                      InitiateSearchEvent(
+                        keyWord: value,
+                      ),
+                    );
+              },
             ),
-            const Text(
-              'Search page',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+            BlocConsumer<SearchPageBloc, SearchPageState>(
+              listener: (context, state) {
+                if (state is SearchSuccessState) {
+                  searchResult = state.movies.results;
+                }
+              },
+              buildWhen: (previous, current) => _buildWhen(current),
+              builder: (context, state) {
+                return Center(
+                  child: Text(
+                    "No results found.\nSearch for your favorite movies or shows here!",
+                    textAlign: TextAlign.center,
+                    style: appTextTheme.titleMedium?.copyWith(
+                      fontWeight: AppFontWeight.semiBold,
+                      color: const Color.fromRGBO(255, 255, 255, 0.83),
+                      fontSize: AppDimensions.size16,
+                      height: 1.4,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool _buildWhen(SearchPageState current) {
+    return current is SearchSuccessState ||
+        current is FailureState ||
+        current is LoadingState;
   }
 }
