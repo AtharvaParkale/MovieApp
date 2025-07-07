@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:movie_app/core/common/widgets/app_bar_widget.dart';
 import 'package:movie_app/core/common/widgets/scaffold_widget.dart';
+import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/utils/show_snackbar.dart';
 import 'package:movie_app/features/favorite/presentation/bloc/favorite_bloc.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
+import 'package:movie_app/features/search/presentation/widgets/loading_widget.dart';
+import 'package:movie_app/features/search/presentation/widgets/movies_grid_widget.dart';
+import 'package:movie_app/features/search/presentation/widgets/no_results_widget.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -24,76 +30,64 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            'Favourite Page',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          BlocConsumer<FavoriteBloc, FavoriteState>(
-            listener: (context, state) {
-              if (state is FavoriteAddSuccess) {
-                favoriteMovies.add(state.result);
-              } else if (state is FavoriteRemoveSuccess) {
-                favoriteMovies = state.favoriteMovies;
-              } else if (state is FavoriteMoviesFetchedState) {
-                favoriteMovies = state.favoriteMovies;
-              } else if (state is ErrorState) {
-                showSnackBar(context, state.message);
-              }
-            },
-            buildWhen: (previous, current) => _buildWhen(current),
-            builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...favoriteMovies.map((movie) {
-                    return Text(
-                      movie.title ?? 'No Title',
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    );
-                  }).toList(),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          context
-                              .read<FavoriteBloc>()
-                              .add(AddFavoriteMovieEvent(1234821));
-                        },
-                        icon: const Icon(Icons.favorite),
-                        label: const Text("Add Favorite"),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          if (favoriteMovies.isNotEmpty) {
-                            final movieToRemove = favoriteMovies.first;
-                            context
-                                .read<FavoriteBloc>()
-                                .add(RemoveFavoriteMovieEvent(541671));
-                          }
-                        },
-                        icon: const Icon(Icons.delete),
-                        label: const Text("Remove Favorite"),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AppBarWidget(),
       ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.size28,
+        ),
+        child: Column(
+          children: [
+            BlocConsumer<FavoriteBloc, FavoriteState>(
+              listener: (context, state) {
+                if (state is FavoriteAddSuccess) {
+                  favoriteMovies.add(state.result);
+                } else if (state is FavoriteRemoveSuccess) {
+                  favoriteMovies = state.favoriteMovies;
+                } else if (state is FavoriteMoviesFetchedState) {
+                  favoriteMovies = state.favoriteMovies;
+                } else if (state is ErrorState) {
+                  showSnackBar(context, state.message);
+                }
+              },
+              buildWhen: (previous, current) => _buildWhen(current),
+              builder: (context, state) {
+                if (state is FavoriteMoviesFetchedState ||
+                    state is FavoriteAddSuccess ||
+                    state is FavoriteRemoveSuccess ||
+                    state is ErrorState) {
+                  if (favoriteMovies.isEmpty) {
+                    return _buildNoResultsFoundWidget(
+                      context,
+                      AppLocalizations.of(context)?.findAllFavoritesHere,
+                    );
+                  } else {
+                    return MoviesGridWidget(movies: favoriteMovies);
+                  }
+                } else if (state is LoadingState) {
+                  return const LoadingWidget();
+                } else {
+                  return _buildNoResultsFoundWidget(
+                    context,
+                    AppLocalizations.of(context)?.findAllFavoritesHere,
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  NoResultsWidget _buildNoResultsFoundWidget(
+    BuildContext context,
+    String? description,
+  ) {
+    return NoResultsWidget(
+      description: description ?? "",
     );
   }
 

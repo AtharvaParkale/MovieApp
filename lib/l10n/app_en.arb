@@ -3,5 +3,7 @@
   "trendingMovies": "Trending Now",
   "nowPlaying": "Now playing",
   "noResults": "No results found.\nTry a different search.",
-  "searchYourFavoriteMovies": "Search for your favorite movies and shows"
+  "searchYourFavoriteMovies": "Search for your favorite movies and shows",
+  "findAllFavoritesHere": "Find all your favorite movies \nright here!",
+  "favoriteMovies": "Favorites"
 }
