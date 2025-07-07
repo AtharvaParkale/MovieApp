@@ -25,7 +25,6 @@ class MovieDetailsPage extends StatefulWidget {
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<MovieDetailsBloc>().add(GetFavouriteMovieIdsEvent());
   }
