@@ -10,6 +10,7 @@ import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/search/presentation/widgets/loading_widget.dart';
 import 'package:movie_app/features/search/presentation/widgets/movies_grid_widget.dart';
 import 'package:movie_app/features/search/presentation/widgets/no_results_widget.dart';
+import 'package:movie_app/main.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -18,12 +19,27 @@ class FavoritePage extends StatefulWidget {
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _FavoritePageState extends State<FavoritePage> with RouteAware {
   List<Results> favoriteMovies = [];
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      routeObserver.subscribe(this, ModalRoute.of(context)!);
+    });
+    context.read<FavoriteBloc>().add(GetAllFavoriteMoviesEvent());
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
     context.read<FavoriteBloc>().add(GetAllFavoriteMoviesEvent());
   }
 
