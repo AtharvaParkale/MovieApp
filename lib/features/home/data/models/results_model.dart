@@ -51,18 +51,36 @@ class ResultsModel {
   Map<String, dynamic> toJson() => _$ResultsModelToJson(this);
 
   Results toEntity() => Results(
-        id: id ?? 0,
-        title: title ?? '',
-        posterPath: posterPath,
-        voteAverage: voteAverage,
-        backdropPath: backdropPath,
-      );
+    adult: adult ?? false,
+    backdropPath: backdropPath,
+    genreIds: genreIds ?? [],
+    id: id ?? 0,
+    originalLanguage: originalLanguage ?? '',
+    originalTitle: originalTitle ?? '',
+    overview: overview ?? '',
+    popularity: popularity ?? 0.0,
+    posterPath: posterPath,
+    releaseDate: releaseDate ?? '',
+    title: title ?? '',
+    video: video ?? false,
+    voteAverage: voteAverage ?? 0.0,
+    voteCount: voteCount ?? 0,
+  );
 
   factory ResultsModel.fromEntity(Results entity) => ResultsModel(
-        id: entity.id,
-        title: entity.title,
-        posterPath: entity.posterPath,
-        voteAverage: entity.voteAverage,
-        backdropPath: entity.backdropPath,
-      );
+    adult: entity.adult,
+    backdropPath: entity.backdropPath,
+    genreIds: entity.genreIds,
+    id: entity.id,
+    originalLanguage: entity.originalLanguage,
+    originalTitle: entity.originalTitle,
+    overview: entity.overview,
+    popularity: entity.popularity,
+    posterPath: entity.posterPath,
+    releaseDate: entity.releaseDate,
+    title: entity.title,
+    video: entity.video,
+    voteAverage: entity.voteAverage,
+    voteCount: entity.voteCount,
+  );
 }
