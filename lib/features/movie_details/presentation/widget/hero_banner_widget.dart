@@ -10,7 +10,7 @@ class HeroBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.55,
       width: double.infinity,
       child: Hero(
         tag: 'movie_${movie.id}',

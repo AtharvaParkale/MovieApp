@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/common/widgets/expandable_description.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
 import 'package:movie_app/core/theme/app_pallete.dart';
@@ -14,9 +15,9 @@ class DraggableSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.40,
-      minChildSize: 0.40,
-      maxChildSize: 0.9,
+      initialChildSize: 0.50,
+      minChildSize: 0.50,
+      maxChildSize: 0.6,
       builder: (context, scrollController) {
         return Container(
           padding: const EdgeInsets.symmetric(
@@ -47,12 +48,48 @@ class DraggableSheetWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 _buildGenreSection(),
                 const SizedBox(height: 26),
-                _buildDescription(),
+                ExpandableDescription(text: movie.overview??"",),
+                const SizedBox(height: 26),
+                _buildActionIconsRow(),
+                const SizedBox(height: 20),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildActionIconsRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildIconWithLabel(Icons.favorite_border, 'Favorite'),
+        _buildIconWithLabel(Icons.share, 'Share'),
+      ],
+    );
+  }
+
+  Widget _buildIconWithLabel(IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+          size: 28,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: appTextTheme.bodyLarge?.copyWith(
+            fontWeight: AppFontWeight.medium,
+            color: Colors.white70,
+            height: 1.2,
+            fontSize: 11,
+          ),
+        ),
+      ],
     );
   }
 
