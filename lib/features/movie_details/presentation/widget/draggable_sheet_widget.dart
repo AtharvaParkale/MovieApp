@@ -134,7 +134,7 @@ class DraggableSheetWidget extends StatelessWidget {
           Text(
             movie.popularity != null
                 ? (movie.popularity != null
-                    ? (movie.popularity! / 100).toStringAsFixed(1)
+                    ? CommonMethods().formatPopularity(movie.popularity)
                     : 'N/A')
                 : "N/A",
             style: appTextTheme.bodyLarge?.copyWith(

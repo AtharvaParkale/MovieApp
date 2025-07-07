@@ -90,16 +90,6 @@ class _PopularMoviesCarouselWidgetState
   Widget _buildCard(Results movie) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   CustomPageRoute.route(
-        //     MovieDetailsPage(
-        //       movie: movie,
-        //     ),
-        //     PageRouteDirection.BOTTOM,
-        //   ),
-        // );
-
         Navigator.push(
           context,
           MaterialPageRoute(

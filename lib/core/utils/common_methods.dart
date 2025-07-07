@@ -20,4 +20,16 @@ class CommonMethods {
     10752: 'War',
     37: 'Western',
   };
+
+  String formatPopularity(num? popularity) {
+    if (popularity == null || popularity == 0) return "0.0";
+
+    final digitsOnly = popularity.toString().replaceAll('.', '');
+
+    if (digitsOnly.length == 1) {
+      return "${digitsOnly[0]}.0";
+    }
+
+    return "${digitsOnly[0]}.${digitsOnly[1]}";
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/core/common/widgets/movie_card_widget.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
+import 'package:movie_app/features/movie_details/presentation/pages/movie_details_page.dart';
 
 class MoviesGridWidget extends StatelessWidget {
   const MoviesGridWidget({super.key, required this.movies});
@@ -23,11 +24,23 @@ class MoviesGridWidget extends StatelessWidget {
           padding: const EdgeInsets.all(0.0), // padding around the grid
           itemCount: movies.length, // total number of items
           itemBuilder: (context, index) {
-            return MovieCardWidget(
-              movie: movies[index],
-              verticalPadding: 0.0,
-              borderRadius: AppDimensions.size16,
-              disableBoxShadow: true,
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetailsPage(
+                      movie: movies[index],
+                    ),
+                  ),
+                );
+              },
+              child: MovieCardWidget(
+                movie: movies[index],
+                verticalPadding: 0.0,
+                borderRadius: AppDimensions.size16,
+                disableBoxShadow: true,
+              ),
             );
           },
         ),

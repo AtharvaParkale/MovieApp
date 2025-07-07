@@ -5,6 +5,7 @@ import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
+import 'package:movie_app/features/movie_details/presentation/pages/movie_details_page.dart';
 
 class NowPlayingMoviesCarousel extends StatefulWidget {
   const NowPlayingMoviesCarousel({
@@ -75,52 +76,64 @@ class _NowPlayingMoviesCarouselState extends State<NowPlayingMoviesCarousel> {
       ),
       child: ShimmerWidget(
         isLoading: widget.isLoading,
-        child: Container(
-          margin: const EdgeInsets.only(
-            top: AppDimensions.size12,
-            bottom: AppDimensions.size12,
-            right: AppDimensions.size14,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppDimensions.size18),
-            border: Border.all(
-              color: const Color.fromRGBO(251, 151, 34, 0.3),
-              width: 1.5,
+        child: GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieDetailsPage(
+                  movie: movie,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.only(
+              top: AppDimensions.size12,
+              bottom: AppDimensions.size12,
+              right: AppDimensions.size14,
             ),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppDimensions.size18),
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.network(
-                    'https://image.tmdb.org/t/p/w500${movie.backdropPath}',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: Colors.grey[300],
-                      child: const Icon(
-                        Icons.movie,
-                        size: AppDimensions.size80,
-                        color: Colors.grey,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppDimensions.size18),
+              border: Border.all(
+                color: const Color.fromRGBO(251, 151, 34, 0.3),
+                width: 1.5,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppDimensions.size18),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.network(
+                      'https://image.tmdb.org/t/p/w500${movie.backdropPath}',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.movie,
+                          size: AppDimensions.size80,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.center,
-                        colors: [
-                          Colors.black.withOpacity(0.6),
-                          Colors.transparent,
-                        ],
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center,
+                          colors: [
+                            Colors.black.withOpacity(0.6),
+                            Colors.transparent,
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
