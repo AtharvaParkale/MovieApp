@@ -8,7 +8,7 @@ class ResultsModel {
   final bool? adult;
   @JsonKey(name: 'backdrop_path')
   final String? backdropPath;
-  @JsonKey(name: 'genre_ids')
+  @JsonKey(name: 'genre_ids', defaultValue: [])
   final List<int>? genreIds;
   final int? id;
   @JsonKey(name: 'original_language')

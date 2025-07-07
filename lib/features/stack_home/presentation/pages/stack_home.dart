@@ -4,7 +4,7 @@ import 'package:movie_app/core/constants/app_font_weigth.dart';
 import 'package:movie_app/core/theme/app_pallete.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/core/utils/custom_page_router.dart';
-import 'package:movie_app/features/favourite/presentation/favourite_page/favourite_page.dart';
+import 'package:movie_app/features/favorite/presentation/pages/favourite_page.dart';
 import 'package:movie_app/features/home/presentation/pages/home_page.dart';
 import 'package:movie_app/features/search/presentation/pages/search_page.dart';
 
@@ -26,8 +26,8 @@ class _StackHomeState extends State<StackHome> {
   final List<Widget> widgetOptions = const [
     HomePage(),
     SearchPage(),
-    FavouritePage(),
-    FavouritePage(),
+    FavoritePage(),
+    FavoritePage(),
   ];
 
   void _onItemTapped(int index) {

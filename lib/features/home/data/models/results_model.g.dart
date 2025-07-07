@@ -10,8 +10,9 @@ ResultsModel _$ResultsModelFromJson(Map<String, dynamic> json) => ResultsModel(
       adult: json['adult'] as bool?,
       backdropPath: json['backdrop_path'] as String?,
       genreIds: (json['genre_ids'] as List<dynamic>?)
-          ?.map((e) => (e as num).toInt())
-          .toList(),
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          [],
       id: (json['id'] as num?)?.toInt(),
       originalLanguage: json['original_language'] as String?,
       originalTitle: json['original_title'] as String?,

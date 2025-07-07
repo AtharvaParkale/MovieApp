@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movie_app/dependency_manager/init_dependencies.main.dart';
+import 'package:movie_app/features/favorite/presentation/bloc/favorite_bloc.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/search/presentation/bloc/search_page_bloc.dart';
 import 'package:movie_app/features/stack_home/presentation/pages/stack_home.dart';
@@ -17,6 +18,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<SearchPageBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<FavoriteBloc>(),
       ),
     ],
     child: const MyApp(),
