@@ -27,7 +27,6 @@ class _StackHomeState extends State<StackHome> {
     HomePage(),
     SearchPage(),
     FavoritePage(),
-    FavoritePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -59,7 +58,6 @@ class _StackHomeState extends State<StackHome> {
                 _buildBottomNavItem('Search', Icons.search, 1),
                 _buildBottomNavItem(
                     'Favourite', Icons.favorite_outline_rounded, 2),
-                _buildBottomNavItem('About', Icons.person, 3),
               ],
             ),
           ),
