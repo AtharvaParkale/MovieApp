@@ -36,16 +36,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           children: [
             const SizedBox(height: AppDimensions.size20),
-            TextFieldWidget(
-              nameController: nameController,
-              onChange: (value) {
-                context.read<SearchPageBloc>().add(
-                      InitiateSearchEvent(
-                        keyWord: value,
-                      ),
-                    );
-              },
-            ),
+            _buildTextFieldWidget(nameController, context),
             BlocConsumer<SearchPageBloc, SearchPageState>(
               listener: (context, state) {
                 if (state is SearchSuccessState) {
@@ -56,9 +47,9 @@ class _SearchPageState extends State<SearchPage> {
               builder: (context, state) {
                 if (state is SearchSuccessState) {
                   if (searchResult.isEmpty) {
-                    return NoResultsWidget(
-                      description:
-                          AppLocalizations.of(context)?.noResults ?? "",
+                    return _buildNoResultsFoundWidget(
+                      context,
+                      AppLocalizations.of(context)?.noResults,
                     );
                   } else {
                     return MoviesGridWidget(movies: searchResult);
@@ -66,10 +57,9 @@ class _SearchPageState extends State<SearchPage> {
                 } else if (state is LoadingState) {
                   return const LoadingWidget();
                 } else {
-                  return NoResultsWidget(
-                    description: AppLocalizations.of(context)
-                            ?.searchYourFavoriteMovies ??
-                        "",
+                  return _buildNoResultsFoundWidget(
+                    context,
+                    AppLocalizations.of(context)?.searchYourFavoriteMovies,
                   );
                 }
               },
@@ -77,6 +67,31 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
+    );
+  }
+
+  NoResultsWidget _buildNoResultsFoundWidget(
+    BuildContext context,
+    String? description,
+  ) {
+    return NoResultsWidget(
+      description: AppLocalizations.of(context)?.searchYourFavoriteMovies ?? "",
+    );
+  }
+
+  TextFieldWidget _buildTextFieldWidget(
+    TextEditingController nameController,
+    BuildContext context,
+  ) {
+    return TextFieldWidget(
+      nameController: nameController,
+      onChange: (value) {
+        context.read<SearchPageBloc>().add(
+              InitiateSearchEvent(
+                keyWord: value,
+              ),
+            );
+      },
     );
   }
 
