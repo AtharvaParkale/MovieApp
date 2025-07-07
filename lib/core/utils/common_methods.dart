@@ -1,3 +1,6 @@
+import 'package:movie_app/core/constants/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class CommonMethods {
   final Map<int, String> genreMap = {
     28: 'Action',
@@ -31,5 +34,35 @@ class CommonMethods {
     }
 
     return "${digitsOnly[0]}.${digitsOnly[1]}";
+  }
+
+  Future<List<int>> addMovieIdToFavorites(int movieId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final favList = prefs.getStringList(Constants.favoriteMovies) ?? [];
+
+    if (!favList.contains(movieId.toString())) {
+      favList.add(movieId.toString());
+      await prefs.setStringList(Constants.favoriteMovies, favList);
+    }
+
+    return favList.map(int.parse).toList();
+  }
+
+  Future<List<int>> removeMovieIdFromFavorites(int movieId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final favList = prefs.getStringList(Constants.favoriteMovies) ?? [];
+
+    if (favList.contains(movieId.toString())) {
+      favList.remove(movieId.toString());
+      await prefs.setStringList(Constants.favoriteMovies, favList);
+    }
+
+    return favList.map(int.parse).toList();
+  }
+
+  Future<List<int>> getFavoriteMovieIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favList = prefs.getStringList(Constants.favoriteMovies) ?? [];
+    return favList.map(int.parse).toList();
   }
 }

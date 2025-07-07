@@ -32,6 +32,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
             posterPath: movieModel.posterPath,
             voteAverage: movieModel.voteAverage,
             backdropPath: movieModel.backdropPath,
+            overview: movieModel.overview,
+            popularity: movieModel.popularity,
+            voteCount: movieModel.voteCount,
           );
           favouriteMovieData.add(resultModel);
         } catch (_) {
@@ -68,6 +71,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         posterPath: movie.posterPath ?? '',
         voteAverage: movie.voteAverage ?? 0.0,
         backdropPath: movie.backdropPath ?? '',
+        overview: movie.overview,
+        popularity: movie.popularity,
+        voteCount: movie.voteCount,
       );
 
       favMovieIdsParsed.add(movieId);
@@ -110,6 +116,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
             posterPath: movie.posterPath ?? '',
             voteAverage: movie.voteAverage ?? 0.0,
             backdropPath: movie.backdropPath ?? '',
+            overview: movie.overview,
+            popularity: movie.popularity,
+            voteCount: movie.voteCount,
           ));
         } catch (_) {}
       }

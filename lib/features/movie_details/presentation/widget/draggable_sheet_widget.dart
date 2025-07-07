@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/common/widgets/expandable_description.dart';
 import 'package:movie_app/core/constants/app_dimensions.dart';
 import 'package:movie_app/core/constants/app_font_weigth.dart';
@@ -6,11 +7,17 @@ import 'package:movie_app/core/theme/app_pallete.dart';
 import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/core/utils/common_methods.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
+import 'package:movie_app/features/movie_details/presentation/bloc/movie_details_bloc.dart';
 
 class DraggableSheetWidget extends StatelessWidget {
-  const DraggableSheetWidget({super.key, required this.movie});
+  const DraggableSheetWidget({
+    super.key,
+    required this.movie,
+    required this.movieIds,
+  });
 
   final Results movie;
+  final List<int> movieIds;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +55,11 @@ class DraggableSheetWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 _buildGenreSection(),
                 const SizedBox(height: 26),
-                ExpandableDescription(text: movie.overview??"",),
+                ExpandableDescription(
+                  text: movie.overview ?? "",
+                ),
                 const SizedBox(height: 26),
-                _buildActionIconsRow(),
+                _buildActionIconsRow(context),
                 const SizedBox(height: 20),
               ],
             ),
@@ -60,23 +69,48 @@ class DraggableSheetWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildActionIconsRow() {
+  Widget _buildActionIconsRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildIconWithLabel(Icons.favorite_border, 'Favorite'),
-        _buildIconWithLabel(Icons.share, 'Share'),
+        GestureDetector(
+          onTap: () {
+            if (movieIds.contains(movie.id)) {
+              context
+                  .read<MovieDetailsBloc>()
+                  .add(RemoveFavoriteMovieEvent(movieId: movie.id ?? 0));
+            } else {
+              context
+                  .read<MovieDetailsBloc>()
+                  .add(AddFavoriteMovieEvent(movieId: movie.id ?? 0));
+            }
+          },
+          child: _buildIconWithLabel(
+            movieIds.contains(movie.id)
+                ? Icons.favorite
+                : Icons.favorite_border,
+            'Favorite',
+            movieIds.contains(movie.id)
+                ? AppPallete.secondaryColor
+                : Colors.white,
+          ),
+        ),
+        _buildIconWithLabel(
+          Icons.share,
+          'Share',
+          Colors.white,
+        ),
       ],
     );
   }
 
-  Widget _buildIconWithLabel(IconData icon, String label) {
+  Widget _buildIconWithLabel(IconData icon, String label, Color color) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           icon,
-          color: Colors.white,
+          color: color,
           size: 28,
         ),
         const SizedBox(height: 4),
