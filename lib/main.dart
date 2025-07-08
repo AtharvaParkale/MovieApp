@@ -30,6 +30,7 @@ void main() async {
     child: const MyApp(),
   ));
 }
+
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
 class MyApp extends StatelessWidget {
