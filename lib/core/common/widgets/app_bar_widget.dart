@@ -16,7 +16,7 @@ class AppBarWidget extends StatelessWidget {
       titleSpacing: 0,
       backgroundColor: AppPallete.primaryColor,
       title: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.size24),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

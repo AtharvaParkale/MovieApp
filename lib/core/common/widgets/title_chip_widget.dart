@@ -15,11 +15,11 @@ class TitleChipWidget extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 3, // thickness
+            width: 3,
             height: 18,
             decoration: BoxDecoration(
               color: AppPallete.secondaryColor,
-              borderRadius: BorderRadius.circular(10), // 👈 makes it rounded
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           const SizedBox(width: 5),

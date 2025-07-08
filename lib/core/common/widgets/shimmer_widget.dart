@@ -20,8 +20,8 @@ class _ShimmerWidgetState extends State<ShimmerWidget> {
   Widget build(BuildContext context) {
     return widget.isLoading
         ? Shimmer.fromColors(
-            baseColor: const Color.fromRGBO(80, 80, 80, 1), // Lighter base
-            highlightColor: const Color.fromRGBO(130, 130, 130, 1), // S
+            baseColor: const Color.fromRGBO(80, 80, 80, 1),
+            highlightColor: const Color.fromRGBO(130, 130, 130, 1),
             child: widget.child,
           )
         : widget.child;
