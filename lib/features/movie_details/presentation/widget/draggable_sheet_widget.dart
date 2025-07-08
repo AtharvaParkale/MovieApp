@@ -8,6 +8,7 @@ import 'package:movie_app/core/theme/app_text_theme.dart';
 import 'package:movie_app/core/utils/common_methods.dart';
 import 'package:movie_app/features/home/domain/entities/results.dart';
 import 'package:movie_app/features/movie_details/presentation/bloc/movie_details_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DraggableSheetWidget extends StatelessWidget {
   const DraggableSheetWidget({
@@ -55,9 +56,7 @@ class DraggableSheetWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 _buildGenreSection(),
                 const SizedBox(height: 26),
-                ExpandableDescription(
-                  text: movie.overview ?? "",
-                ),
+                ExpandableDescription(text: movie.overview ?? ""),
                 const SizedBox(height: 26),
                 _buildActionIconsRow(context),
                 const SizedBox(height: 20),
@@ -73,34 +72,42 @@ class DraggableSheetWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        _buildFavoriteWidget(context),
         GestureDetector(
           onTap: () {
-            if (movieIds.contains(movie.id)) {
-              context
-                  .read<MovieDetailsBloc>()
-                  .add(RemoveFavoriteMovieEvent(movieId: movie.id ?? 0));
-            } else {
-              context
-                  .read<MovieDetailsBloc>()
-                  .add(AddFavoriteMovieEvent(movieId: movie.id ?? 0));
-            }
+            final String deepLink = "movieapp://details/${movie.id}";
+            SharePlus.instance.share(
+                ShareParams(text: 'Check out this movie: $deepLink')
+            );
           },
           child: _buildIconWithLabel(
-            movieIds.contains(movie.id)
-                ? Icons.favorite
-                : Icons.favorite_border,
-            'Favorite',
-            movieIds.contains(movie.id)
-                ? AppPallete.secondaryColor
-                : Colors.white,
+            Icons.share,
+            'Share',
+            Colors.white,
           ),
         ),
-        _buildIconWithLabel(
-          Icons.share,
-          'Share',
-          Colors.white,
-        ),
       ],
+    );
+  }
+
+  GestureDetector _buildFavoriteWidget(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (movieIds.contains(movie.id)) {
+          context
+              .read<MovieDetailsBloc>()
+              .add(RemoveFavoriteMovieEvent(movieId: movie.id ?? 0));
+        } else {
+          context
+              .read<MovieDetailsBloc>()
+              .add(AddFavoriteMovieEvent(movieId: movie.id ?? 0));
+        }
+      },
+      child: _buildIconWithLabel(
+        movieIds.contains(movie.id) ? Icons.favorite : Icons.favorite_border,
+        'Favorite',
+        movieIds.contains(movie.id) ? AppPallete.secondaryColor : Colors.white,
+      ),
     );
   }
 
